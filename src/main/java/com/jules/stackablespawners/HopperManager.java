@@ -50,21 +50,18 @@ public class HopperManager {
             try {
                 hoppersFile.createNewFile();
             } catch (IOException e) {
-                plugin.getLogger().severe("Could not create hoppers.yml!");
-                e.printStackTrace();
+                plugin.getLogger().severe("Could not create hoppers.yml! " + e.getMessage());
             }
         }
         hoppersConfig = YamlConfiguration.loadConfiguration(hoppersFile);
-        if (hoppersConfig.isList("hoppers")) {
-            List<Map<?, ?>> hopperList = hoppersConfig.getMapList("hoppers");
-            for (Map<?, ?> hopperMap : hopperList) {
-                if (hopperMap.get("location") instanceof Map) {
-                    Location loc = Location.deserialize((Map<String, Object>) hopperMap.get("location"));
-                    UUID owner = UUID.fromString((String) hopperMap.get("owner"));
-                    double multiplier = (Double) hopperMap.get("multiplier");
-                    String name = (String) hopperMap.get("name");
-                    hopperDataMap.put(loc, new HopperData(owner, multiplier, name));
-                }
+        List<Map<?, ?>> hopperList = hoppersConfig.getMapList("hoppers");
+        for (Map<?, ?> hopperMap : hopperList) {
+            if (hopperMap.get("location") instanceof Map) {
+                Location loc = Location.deserialize((Map<String, Object>) hopperMap.get("location"));
+                UUID owner = UUID.fromString((String) hopperMap.get("owner"));
+                double multiplier = (Double) hopperMap.get("multiplier");
+                String name = (String) hopperMap.get("name");
+                hopperDataMap.put(loc, new HopperData(owner, multiplier, name));
             }
         }
     }
@@ -87,8 +84,7 @@ public class HopperManager {
         try {
             hoppersConfig.save(hoppersFile);
         } catch (IOException e) {
-            plugin.getLogger().severe("Could not save hoppers to file!");
-            e.printStackTrace();
+            plugin.getLogger().severe("Could not save hoppers to file! " + e.getMessage());
         }
     }
 

@@ -81,34 +81,30 @@ public class SpawnerManager {
             try {
                 spawnersFile.createNewFile();
             } catch (IOException e) {
-                plugin.getLogger().severe("Could not create spawners.yml!");
-                e.printStackTrace();
+                plugin.getLogger().severe("Could not create spawners.yml! " + e.getMessage());
             }
         }
         spawnersConfig = YamlConfiguration.loadConfiguration(spawnersFile);
-        if (spawnersConfig.isList("spawners")) {
-            List<?> locList = spawnersConfig.getList("spawners");
-            if(locList == null) return;
+        List<?> locList = spawnersConfig.getList("spawners");
+        if (locList == null) return;
 
-            for (Object locObject : locList) {
-                if (locObject instanceof Map) {
-                    spawnerLocations.add(Location.deserialize((Map<String, Object>) locObject));
-                }
+        for (Object locObject : locList) {
+            if (locObject instanceof Map) {
+                spawnerLocations.add(Location.deserialize((Map<String, Object>) locObject));
             }
         }
     }
 
     public void saveSpawners() {
         if (spawnersConfig == null) {
-            spawnersFile = new File(plugin.getDataFolder(), "spawners.yml");
-            spawnersConfig = YamlConfiguration.loadConfiguration(spawnersFile);
+             spawnersFile = new File(plugin.getDataFolder(), "spawners.yml");
+             spawnersConfig = YamlConfiguration.loadConfiguration(spawnersFile);
         }
         spawnersConfig.set("spawners", spawnerLocations.stream().map(Location::serialize).collect(Collectors.toList()));
         try {
             spawnersConfig.save(spawnersFile);
         } catch (IOException e) {
-            plugin.getLogger().severe("Could not save spawners to file!");
-            e.printStackTrace();
+            plugin.getLogger().severe("Could not save spawners to file! " + e.getMessage());
         }
     }
 }
