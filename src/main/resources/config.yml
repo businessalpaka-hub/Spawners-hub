@@ -1,0 +1,9 @@
+# StackableSpawners Configuration
+
+spawners:
+  # The interval in seconds for the spawner to attempt to drop items.
+  # This is based on ticks (20 ticks = 1 second), so a value of 5 means 100 ticks.
+  spawn-rate-seconds: 5
+
+  # The maximum number of spawners that can be stacked in one block.
+  max-stack-size: 20

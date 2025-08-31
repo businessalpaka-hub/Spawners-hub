@@ -1,0 +1,22 @@
+# Loot tables for each spawner type.
+# The format is: <EntityType>.<Material> = amount
+loottables:
+  ZOMBIE:
+    ROTTEN_FLESH: 1
+    CARROT: 1
+  SKELETON:
+    BONE: 1
+    ARROW: 1
+  SPIDER:
+    STRING: 1
+    SPIDER_EYE: 1
+  CREEPER:
+    GUNPOWDER: 1
+  PIG:
+    PORKCHOP: 1
+  COW:
+    LEATHER: 1
+    BEEF: 1
+  CHICKEN:
+    FEATHER: 1
+    CHICKEN: 1

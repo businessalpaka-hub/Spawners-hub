@@ -1,0 +1,11 @@
+com/jules/stackablespawners/SpawnerManager.class
+com/jules/stackablespawners/SpawnerTask.class
+com/jules/stackablespawners/SpawnerCommand.class
+com/jules/stackablespawners/SpawnerListener.class
+com/jules/stackablespawners/HopperListener.class
+com/jules/stackablespawners/HopperCommand.class
+com/jules/stackablespawners/HopperManager.class
+com/jules/stackablespawners/StackableSpawners.class
+com/jules/stackablespawners/LootManager.class
+com/jules/stackablespawners/HopperManager$HopperData.class
+com/jules/stackablespawners/ItemWorthManager.class

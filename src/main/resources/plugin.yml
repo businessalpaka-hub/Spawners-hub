@@ -1,0 +1,21 @@
+name: StackableSpawners
+version: 1.0
+main: com.jules.stackablespawners.StackableSpawners
+api-version: '1.21'
+softdepend: [Vault]
+commands:
+  sspawner:
+    description: "Manage stackable spawners"
+    usage: "/sspawner <reload|give type amount [player]>"
+    permission: stackablespawners.admin
+  hopper:
+    description: "Create a multiplier hopper"
+    usage: "/hopper create <multiplier> [name]"
+    permission: stackablespawners.hopper
+permissions:
+  stackablespawners.admin:
+    description: "Admin access for StackableSpawners"
+    default: op
+  stackablespawners.hopper:
+    description: "Allows creating multiplier hoppers"
+    default: op
