@@ -1,6 +1,7 @@
 package com.jules.stackablespawners;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.persistence.PersistentDataType;
 
 public class SpawnerCommand implements CommandExecutor {
 
@@ -35,7 +37,7 @@ public class SpawnerCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("give")) {
             if (args.length < 3) {
-                sender.sendMessage("Usage: /sspawner give <type> <amount> [player]");
+                sender.sendMessage("Usage: /sspawner give <type> <level> [player]");
                 return true;
             }
 
@@ -47,11 +49,21 @@ public class SpawnerCommand implements CommandExecutor {
                 return true;
             }
 
-            int amount;
+            int level;
             try {
-                amount = Integer.parseInt(args[2]);
+                level = Integer.parseInt(args[2]);
             } catch (NumberFormatException e) {
-                sender.sendMessage("Invalid amount: " + args[2]);
+                sender.sendMessage("Invalid level: " + args[2]);
+                return true;
+            }
+
+            int maxStackSize = plugin.getConfig().getInt("spawners.max-stack-size", 20);
+            if (level > maxStackSize) {
+                level = maxStackSize;
+                sender.sendMessage("Level was capped at the max stack size of " + maxStackSize);
+            }
+            if (level <= 0) {
+                sender.sendMessage("Level must be a positive number.");
                 return true;
             }
 
@@ -69,20 +81,27 @@ public class SpawnerCommand implements CommandExecutor {
                 return true;
             }
 
-            giveSpawner(target, type, amount);
-            sender.sendMessage("Gave " + amount + " " + type.name() + " spawner(s) to " + target.getName());
+            giveSpawner(target, type, level);
+            sender.sendMessage("Gave a level " + level + " " + type.name() + " spawner to " + target.getName());
             return true;
         }
 
         return false;
     }
 
-    private void giveSpawner(Player player, EntityType type, int amount) {
-        ItemStack spawnerItem = new ItemStack(Material.SPAWNER, amount);
+    private void giveSpawner(Player player, EntityType type, int level) {
+        ItemStack spawnerItem = new ItemStack(Material.SPAWNER, 1);
         BlockStateMeta meta = (BlockStateMeta) spawnerItem.getItemMeta();
+
+        // Set spawner type
         CreatureSpawner spawnerState = (CreatureSpawner) meta.getBlockState();
         spawnerState.setSpawnedType(type);
         meta.setBlockState(spawnerState);
+
+        // Set stack level on the item's PDC
+        NamespacedKey stackSizeKey = new NamespacedKey(plugin, "spawner_stack_size");
+        meta.getPersistentDataContainer().set(stackSizeKey, PersistentDataType.INTEGER, level);
+
         spawnerItem.setItemMeta(meta);
         player.getInventory().addItem(spawnerItem);
     }

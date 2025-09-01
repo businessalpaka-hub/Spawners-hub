@@ -3,6 +3,7 @@ package com.jules.stackablespawners;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
@@ -33,18 +34,26 @@ public class HopperListener implements Listener {
 
         ItemStack item = event.getItem();
         double itemWorth = itemWorthManager.getItemWorth(item);
+        HopperManager.HopperData hopperData = hopperManager.getHopperData(destinationLoc);
+        OfflinePlayer owner = plugin.getServer().getOfflinePlayer(hopperData.getOwner());
 
         if (itemWorth > 0) {
-            HopperManager.HopperData hopperData = hopperManager.getHopperData(destinationLoc);
             double totalWorth = itemWorth * item.getAmount() * hopperData.getMultiplier();
 
-            OfflinePlayer owner = plugin.getServer().getOfflinePlayer(hopperData.getOwner());
             if (owner.hasPlayedBefore() || owner.isOnline()) {
                 economy.depositPlayer(owner, totalWorth);
             }
 
             // Remove the item from the source inventory
             event.getSource().removeItem(item);
+        } else {
+            // Item has no value, provide feedback to the owner if they are online.
+            if (owner.isOnline()) {
+                Player onlineOwner = (Player) owner;
+                onlineOwner.sendMessage("§c[StackableSpawners] Your multiplier hopper at §e" +
+                        destinationLoc.getBlockX() + ", " + destinationLoc.getBlockY() + ", " + destinationLoc.getBlockZ() +
+                        "§c tried to sell §e" + item.getType().toString() + "§c, but it has no price in itemworth.yml.");
+            }
         }
     }
 }

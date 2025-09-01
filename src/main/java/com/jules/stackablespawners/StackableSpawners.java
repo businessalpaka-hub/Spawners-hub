@@ -52,6 +52,7 @@ public class StackableSpawners extends JavaPlugin {
         // Register listeners
         getServer().getPluginManager().registerEvents(new SpawnerListener(this), this);
         getServer().getPluginManager().registerEvents(new HopperListener(this), this);
+        getServer().getPluginManager().registerEvents(new HopperPlaceListener(this.hopperManager), this);
 
         // Start task
         long spawnRateTicks = getConfig().getLong("spawners.spawn-rate-seconds", 5) * 20;

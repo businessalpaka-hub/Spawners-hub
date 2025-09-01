@@ -1,6 +1,7 @@
 package com.jules.stackablespawners;
 
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -19,8 +20,16 @@ public class HopperManager {
     private File hoppersFile;
     private FileConfiguration hoppersConfig;
 
+    public final NamespacedKey ownerKey;
+    public final NamespacedKey multiplierKey;
+    public final NamespacedKey nameKey;
+
+
     public HopperManager(StackableSpawners plugin) {
         this.plugin = plugin;
+        this.ownerKey = new NamespacedKey(plugin, "hopper_owner");
+        this.multiplierKey = new NamespacedKey(plugin, "hopper_multiplier");
+        this.nameKey = new NamespacedKey(plugin, "hopper_name");
         loadHoppers();
     }
 

@@ -6,6 +6,7 @@ com/jules/stackablespawners/HopperListener.class
 com/jules/stackablespawners/HopperCommand.class
 com/jules/stackablespawners/HopperManager.class
 com/jules/stackablespawners/StackableSpawners.class
+com/jules/stackablespawners/HopperPlaceListener.class
 com/jules/stackablespawners/LootManager.class
 com/jules/stackablespawners/HopperManager$HopperData.class
 com/jules/stackablespawners/ItemWorthManager.class
