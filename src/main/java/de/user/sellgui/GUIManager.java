@@ -8,8 +8,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GUIManager {
 
@@ -23,7 +23,7 @@ public class GUIManager {
 
     public void openSellGUI(Player player) {
         String title = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.title", "&2&lSell Menu"));
-        Inventory sellGUI = Bukkit.createInventory(null, 54, title);
+        Inventory sellGUI = Bukkit.createInventory(player, 54, title); // Use player as owner
 
         // Add filler items and total worth item
         createGUIItems(sellGUI);
@@ -39,7 +39,7 @@ public class GUIManager {
             ItemStack fillerItem = new ItemStack(fillerMaterial);
             ItemMeta fillerMeta = fillerItem.getItemMeta();
             if (fillerMeta != null) {
-                fillerMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("filler-item.name", " ")));
+                fillerMeta.setDisplayName(" ");
                 fillerItem.setItemMeta(fillerMeta);
             }
             for (int i = 45; i < 53; i++) {
@@ -63,12 +63,16 @@ public class GUIManager {
             String name = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("total-worth-item.name", "&6&lTotal Worth"));
             meta.setDisplayName(name);
 
-            List<String> lore = plugin.getConfig().getStringList("total-worth-item.lore");
+            List<String> configLore = plugin.getConfig().getStringList("total-worth-item.lore");
+            List<String> newLore = new ArrayList<>();
             String formattedTotal = String.format("%.2f", total);
-            List<String> coloredLore = lore.stream()
-                    .map(line -> ChatColor.translateAlternateColorCodes('&', line.replace("%total%", formattedTotal)))
-                    .collect(Collectors.toList());
-            meta.setLore(coloredLore);
+
+            for (String line : configLore) {
+                String processedLine = line.replace("%total%", formattedTotal);
+                newLore.add(ChatColor.translateAlternateColorCodes('&', processedLine));
+            }
+
+            meta.setLore(newLore);
             totalWorthItem.setItemMeta(meta);
         }
 
