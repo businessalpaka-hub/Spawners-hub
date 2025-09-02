@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,24 +16,25 @@ public class GUIManager {
 
     private final SellGUI plugin;
     private final PriceManager priceManager;
+    private final DecimalFormat numberFormat;
 
     public GUIManager(SellGUI plugin) {
         this.plugin = plugin;
         this.priceManager = plugin.getPriceManager();
+        String format = plugin.getConfig().getString("gui.number-format", "#,##0.00");
+        this.numberFormat = new DecimalFormat(format);
     }
 
     public void openSellGUI(Player player) {
         String title = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.title", "&2&lSell Menu"));
-        Inventory sellGUI = Bukkit.createInventory(player, 54, title); // Use player as owner
+        Inventory sellGUI = Bukkit.createInventory(player, 54, title);
 
-        // Add filler items and total worth item
         createGUIItems(sellGUI);
 
         player.openInventory(sellGUI);
     }
 
     public void createGUIItems(Inventory gui) {
-        // Filler Item
         if (plugin.getConfig().getBoolean("filler-item.enabled", true)) {
             Material fillerMaterial = Material.matchMaterial(plugin.getConfig().getString("filler-item.material", "GRAY_STAINED_GLASS_PANE"));
             if (fillerMaterial == null) fillerMaterial = Material.GRAY_STAINED_GLASS_PANE;
@@ -46,8 +48,6 @@ public class GUIManager {
                 gui.setItem(i, fillerItem);
             }
         }
-
-        // Total Worth Item
         updateTotalWorth(gui);
     }
 
@@ -65,7 +65,7 @@ public class GUIManager {
 
             List<String> configLore = plugin.getConfig().getStringList("total-worth-item.lore");
             List<String> newLore = new ArrayList<>();
-            String formattedTotal = String.format("%.2f", total);
+            String formattedTotal = numberFormat.format(total);
 
             for (String line : configLore) {
                 String processedLine = line.replace("%total%", formattedTotal);
@@ -81,7 +81,7 @@ public class GUIManager {
 
     public double calculateTotalWorth(Inventory gui) {
         double total = 0;
-        for (int i = 0; i < 45; i++) { // Only check the top part of the GUI
+        for (int i = 0; i < 45; i++) {
             ItemStack item = gui.getItem(i);
             if (item != null) {
                 total += priceManager.getItemPrice(item) * item.getAmount();

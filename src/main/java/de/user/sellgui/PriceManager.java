@@ -1,6 +1,5 @@
 package de.user.sellgui;
 
-import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.configuration.ConfigurationSection;
@@ -27,8 +26,7 @@ public class PriceManager {
             return;
         }
         for (String key : pricesSection.getKeys(false)) {
-            // Keys are now case-sensitive and include namespace, e.g., "minecraft:stone"
-            prices.put(key, pricesSection.getDouble(key));
+            prices.put(key.toLowerCase(), pricesSection.getDouble(key));
         }
     }
 
@@ -44,19 +42,17 @@ public class PriceManager {
                 ShulkerBox shulker = (ShulkerBox) bsm.getBlockState();
                 double shulkerValue = 0;
                 for (ItemStack shulkerItem : shulker.getInventory().getContents()) {
-                    // Recursive call to prevent selling nested shulkers inside shulkers
-                    if (shulkerItem != null && !(shulkerItem.getItemMeta() instanceof BlockStateMeta && ((BlockStateMeta)shulkerItem.getItemMeta()).getBlockState() instanceof ShulkerBox) ) {
+                     if (shulkerItem != null && !(shulkerItem.getItemMeta() instanceof BlockStateMeta && ((BlockStateMeta)shulkerItem.getItemMeta()).getBlockState() instanceof ShulkerBox) ) {
                         shulkerValue += getItemPrice(shulkerItem) * shulkerItem.getAmount();
                     }
                 }
-                // Add the price of the box itself
-                String key = ((Keyed) item.getType()).getKey().toString();
+                String key = item.getType().toString().toLowerCase().replace("_", "");
                 return prices.getOrDefault(key, 0.0) + shulkerValue;
             }
         }
 
         // Handle normal items
-        String key = ((Keyed) item.getType()).getKey().toString();
+        String key = item.getType().toString().toLowerCase().replace("_", "");
         return prices.getOrDefault(key, 0.0);
     }
 }

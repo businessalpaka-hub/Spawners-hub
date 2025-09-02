@@ -9,6 +9,13 @@ gui:
   # This message appears above the hotbar.
   sell-message: "&a+&f%price% €"
 
+  # The format for numbers, using Java's DecimalFormat.
+  # Examples: #,##0.00 (1,234.56) or 0.00 (1234.56)
+  number-format: "#,##0.00"
+
+  # When enabled, this will send a message to a player if they try to sell an item that isn't in prices.yml
+  debug-unpriced-items: true
+
   # Configuration for the item that shows the total price.
   total-worth-item:
     material: "GOLD_NUGGET"
