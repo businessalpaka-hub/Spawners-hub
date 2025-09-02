@@ -1,0 +1,26 @@
+# Item prices for the /sell GUI.
+# The format is: <itemname> = price
+# Item names should be all lowercase, with no spaces or underscores.
+# This corresponds to Material.toString().toLowerCase().replace("_", "")
+prices:
+  cobblestone: 0.1
+  dirt: 0.1
+  stone: 0.2
+  ironingot: 10.0
+  goldingot: 25.0
+  diamond: 100.0
+  emerald: 120.0
+  netheriteingot: 1000.0
+  oaklog: 1.0
+  wheat: 0.5
+  carrot: 0.5
+  potato: 0.5
+  beef: 2.0
+  porkchop: 2.0
+  chicken: 1.5
+  rottenflresh: 0.05
+  bone: 0.1
+  gunpowder: 1.5
+  string: 1.0
+  spidereye: 1.2
+  shulkerbox: 50.0 # Price for the box itself, contents are sold separately.

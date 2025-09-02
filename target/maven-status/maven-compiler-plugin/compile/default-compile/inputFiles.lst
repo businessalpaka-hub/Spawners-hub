@@ -1,11 +1,6 @@
-/app/src/main/java/com/jules/stackablespawners/SpawnerCommand.java
-/app/src/main/java/com/jules/stackablespawners/SpawnerTask.java
-/app/src/main/java/com/jules/stackablespawners/StackableSpawners.java
-/app/src/main/java/com/jules/stackablespawners/SpawnerListener.java
-/app/src/main/java/com/jules/stackablespawners/HopperPlaceListener.java
-/app/src/main/java/com/jules/stackablespawners/LootManager.java
-/app/src/main/java/com/jules/stackablespawners/HopperManager.java
-/app/src/main/java/com/jules/stackablespawners/SpawnerManager.java
-/app/src/main/java/com/jules/stackablespawners/ItemWorthManager.java
-/app/src/main/java/com/jules/stackablespawners/HopperCommand.java
-/app/src/main/java/com/jules/stackablespawners/HopperListener.java
+/app/src/main/java/de/user/sellgui/SellCommand.java
+/app/src/main/java/de/user/sellgui/SellGUI.java
+/app/src/main/java/de/user/sellgui/SellReloadCommand.java
+/app/src/main/java/de/user/sellgui/GUIManager.java
+/app/src/main/java/de/user/sellgui/PriceManager.java
+/app/src/main/java/de/user/sellgui/SellGUIListener.java

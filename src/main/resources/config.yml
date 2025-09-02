@@ -1,9 +1,26 @@
-# StackableSpawners Configuration
+# SellGUI Configuration
 
-spawners:
-  # The interval in seconds for the spawner to attempt to drop items.
-  # This is based on ticks (20 ticks = 1 second), so a value of 5 means 100 ticks.
-  spawn-rate-seconds: 5
+gui:
+  # The title of the /sell GUI. Color codes are supported.
+  title: "&2&lVerkaufsmenü"
 
-  # The maximum number of spawners that can be stacked in one block.
-  max-stack-size: 20
+  # The message displayed to the player after selling items.
+  # Use %price% as a placeholder for the total sale price.
+  # This message appears above the hotbar.
+  sell-message: "&a+&f%price% €"
+
+  # Configuration for the item that shows the total price.
+  total-worth-item:
+    material: "GOLD_NUGGET"
+    name: "&6&lGesamtwert"
+    lore:
+      - "&7Der Gesamtwert aller Items"
+      - "&7in diesem Menü beträgt:"
+      - "&e%total% €"
+      - ""
+      - "&cDu kannst diesen Gegenstand nicht nehmen."
+
+filler-item:
+  enabled: true
+  material: "GRAY_STAINED_GLASS_PANE"
+  name: " "
